@@ -2,34 +2,43 @@ import React, { useState, useContext } from 'react'
 
 import Modal from '../UI/Modal'
 import CartContext from '../../store/cart-context'
+import {
+  CartContextProviderType,
+  CartItem as ItemInCart,
+} from '../../store/types'
 import CartItem from './CartItem'
 import Checkout from './Checkout'
+import { UserData } from './types'
 
 import classes from './Cart.module.css'
 
-const Cart = (props) => {
+type Props = {
+  onClose: (event: React.MouseEvent) => void
+}
+
+const Cart = (props: Props) => {
   const [isCheckout, setIsCheckout] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [didSubmit, setDidSubmit] = useState(false)
 
-  const cartContext = useContext(CartContext)
+  const cartContext = useContext(CartContext) as CartContextProviderType
 
   const totalAmount = `$${cartContext.totalAmount.toFixed(2)}`
   const hasItems = cartContext.items.length > 0
 
-  const cartItemRemoveHandler = (id) => {
+  const cartItemRemoveHandler = (id: string) => {
     cartContext.removeItem(id)
   }
 
-  const cartItemAddHandler = (item) => {
+  const cartItemAddHandler = (item: ItemInCart) => {
     cartContext.addItem({ ...item, amount: 1 })
   }
 
-  const orderHandler = (event) => {
+  const orderHandler = (event: React.MouseEvent) => {
     setIsCheckout(true)
   }
 
-  const submitOrderHandler = async (userData) => {
+  const submitOrderHandler = async (userData: UserData) => {
     setIsSubmitting(true)
     await fetch(
       'https://react-meals-69a9e-default-rtdb.europe-west1.firebasedatabase.app/orders.json',
