@@ -1,16 +1,21 @@
-import { useRef, useState } from 'react'
+import React, { ForwardedRef, useRef, useState } from 'react'
 
 import Input from '../../UI/Input'
 import classes from './MealItemForm.module.css'
 
-const MealItemForm = (props) => {
-  const [amountIsValid, setAmountIsValid] = useState(true)
-  const amountInputRef = useRef()
+type Props = {
+  id: string
+  onAddToCart: (amount: number) => void
+}
 
-  const submitHandler = (event) => {
+const MealItemForm = (props: Props) => {
+  const [amountIsValid, setAmountIsValid] = useState(true)
+  const amountInputRef = useRef() as React.MutableRefObject<HTMLInputElement>
+
+  const submitHandler = (event: React.SyntheticEvent) => {
     event.preventDefault()
 
-    const enteredAmount = amountInputRef.current.value
+    const enteredAmount = amountInputRef.current!.value
     const enteredAmountNumber = +enteredAmount
 
     if (

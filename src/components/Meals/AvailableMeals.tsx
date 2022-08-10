@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 
 import Card from '../UI/Card'
 import MealItem from './MealItem/MealItem'
+import { AvailableMealItem } from './types'
+
 import classes from './AvailableMeals.module.css'
 
 const AvailableMeals = () => {
-  const [meals, setMeals] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [httpError, setHttpError] = useState()
+  const [meals, setMeals] = useState<AvailableMealItem[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [httpError, setHttpError] = useState<string | undefined>()
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -22,7 +24,7 @@ const AvailableMeals = () => {
 
       const responseData = await response.json()
 
-      const loadedMeals = []
+      const loadedMeals: AvailableMealItem[] = []
 
       for (const key in responseData) {
         loadedMeals.push({
@@ -59,7 +61,7 @@ const AvailableMeals = () => {
     )
   }
 
-  const mealsList = meals.map((meal) => {
+  const mealsList = meals.map((meal: AvailableMealItem) => {
     return (
       <MealItem
         id={meal.id}

@@ -4,12 +4,16 @@ import HeaderCartButton from './HeaderCartButton'
 import mealsImage from '../../assets/meals.jpeg'
 import classes from './Header.module.css'
 
-const Header = (props) => {
+type Props = {
+  onShowCart: (e: React.MouseEvent) => void
+}
+
+const Header = ({ onShowCart }: Props) => {
   return (
     <React.Fragment>
       <header className={classes.header}>
         <h1>ReactMeals</h1>
-        <HeaderCartButton onClick={props.onShowCart} />
+        <HeaderCartButton onClick={onShowCart} />
       </header>
       <div className={classes['main-image']}>
         <img src={mealsImage} alt='A table full of food' />
