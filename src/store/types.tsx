@@ -4,14 +4,14 @@ export type CartProviderProps = {
   children?: React.ReactNode
 }
 
-export interface CartItem {
+export type CartItem = {
   id: string
   name: string
   price: number
   amount: number
 }
 
-export interface CartState {
+export type CartState = {
   items: CartItem[]
   totalAmount: number
 }
