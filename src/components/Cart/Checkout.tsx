@@ -1,23 +1,33 @@
-import { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import classes from './Checkout.module.css'
+import { UserData } from './types'
 
-const isEmpty = (value) => value.trim().length === 0
-const isFiveChars = (value) => value.trim().length === 5
+const isEmpty = (value: string) => value.trim().length === 0
+const isFiveChars = (value: string) => value.trim().length === 5
 
-const Checkout = (props) => {
+type Props = {
+  onConfirm: (userData: UserData) => void
+  onCancel: (e: React.MouseEvent) => void
+}
+
+const Checkout = ({ onConfirm, onCancel }: Props) => {
   const [formInputsValidity, setFormInputsValidity] = useState({
     name: true,
     street: true,
     city: true,
     postalCode: true,
   })
-  const nameInputRef = useRef()
-  const streetInputRef = useRef()
-  const postalInputRef = useRef()
-  const cityInputRef = useRef()
+  const nameInputRef =
+    useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>
+  const streetInputRef =
+    useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>
+  const postalInputRef =
+    useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>
+  const cityInputRef =
+    useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>
 
-  const confirmHandler = (event) => {
+  const confirmHandler = (event: React.SyntheticEvent) => {
     event.preventDefault()
 
     const enteredName = nameInputRef.current.value
@@ -48,7 +58,7 @@ const Checkout = (props) => {
     }
 
     // submit cart data
-    props.onConfirm({
+    onConfirm({
       name: enteredName,
       street: enteredStreet,
       city: enteredCity,
@@ -94,7 +104,7 @@ const Checkout = (props) => {
         {!formInputsValidity.city && <p>Please entered a valid city</p>}
       </div>
       <div className={classes.actions}>
-        <button type='button' onClick={props.onCancel}>
+        <button type='button' onClick={onCancel}>
           Cancel
         </button>
         <button className={classes.submit}>Confirm</button>
