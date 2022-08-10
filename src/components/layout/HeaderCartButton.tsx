@@ -1,17 +1,25 @@
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import CartIcon from '../Cart/CartIcon'
 import CartContext from '../../store/cart-context'
+import { CartContextProviderType, CartItem } from '../../store/types'
+
 import classes from './HeaderCartButton.module.css'
 
-const HeaderCartButton = (props) => {
-  const [buttonIsHighlited, setButtonIsHighlited] = useState()
-  const cartContext = useContext(CartContext)
-  const { items } = cartContext
+type Props = {
+  onClick: (e: React.MouseEvent) => void
+}
 
-  const numberOfCartItems = items.reduce((currentNumber, item) => {
-    return currentNumber + item.amount
-  }, 0)
+const HeaderCartButton = (props: Props) => {
+  const [buttonIsHighlited, setButtonIsHighlited] = useState<boolean>()
+  const { items } = useContext(CartContext) as CartContextProviderType
+
+  const numberOfCartItems = items.reduce(
+    (currentNumber: number, item: CartItem) => {
+      return currentNumber + item.amount
+    },
+    0
+  )
 
   const buttonClasses = `${classes.button} ${
     buttonIsHighlited ? classes.bump : ''
